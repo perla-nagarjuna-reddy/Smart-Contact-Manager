@@ -3,16 +3,20 @@ package com.scm.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.scm.forms.UserForm;
 
 @Controller
 public class PageController {
-    
+
     @GetMapping("/home")
-    public String home(Model model){
+    public String home(Model model) {
         System.out.println("Home Page Handler");
         model.addAttribute("name", "Perla Nagarjuna Reddy");
-        model.addAttribute("profession","Software Engineer");
-        model.addAttribute("githubRepo","https://github.com/perla-nagarjuna-reddy");
+        model.addAttribute("profession", "Software Engineer");
+        model.addAttribute("githubRepo", "https://github.com/perla-nagarjuna-reddy");
         return "home";
     }
 
@@ -28,7 +32,7 @@ public class PageController {
         return "services";
     }
 
-    //contact page
+    // contact page
 
     @GetMapping("/contact")
     public String contact() {
@@ -39,15 +43,24 @@ public class PageController {
     public String login() {
         return new String("login");
     }
-    
+
     // register page
 
     @GetMapping("/register")
-    public String register() {
+    public String register(Model model) {
+        UserForm userForm = new UserForm();
+
+        userForm.setName("Perla Nagarjuna Reddy");
+        // default also we can send
+        model.addAttribute("userForm", userForm);
         return new String("register");
     }
-    
-    
 
-    
+    // processing register
+    @RequestMapping(value = "/do-register", method = { RequestMethod.GET, RequestMethod.POST })
+    public String processRegister() {
+        System.out.println("processing registeration");
+        return "redirect:/register";
+    }
+
 }
