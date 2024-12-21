@@ -3,14 +3,20 @@ package com.scm.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scm.entities.User;
+import com.scm.enums.MessageType;
+import com.scm.exceptions.Message;
 import com.scm.forms.UserForm;
 import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PageController {
@@ -57,7 +63,7 @@ public class PageController {
     public String register(Model model) {
         UserForm userForm = new UserForm();
 
-        userForm.setName("Perla Nagarjuna Reddy");
+        // userForm.setName("Perla Nagarjuna Reddy");
         // default also we can send
         model.addAttribute("userForm", userForm);
         return new String("register");
@@ -65,7 +71,8 @@ public class PageController {
 
     // processing register
     @RequestMapping(value = "/do-register", method = { RequestMethod.GET, RequestMethod.POST })
-    public String processRegister(@ModelAttribute UserForm userForm) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult,
+            HttpSession session) {
         System.out.println("processing registeration");
 
         // validate form data
@@ -77,6 +84,9 @@ public class PageController {
         // .password(userForm.getPassword()).email(userForm.getEmail()).about(userForm.getAbout())
         // .phoneNumber(userForm.getPhoneNumber())
         // .build();
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
         User user1 = new User();
         user1.setName(userForm.getName());
         user1.setEmail(userForm.getEmail());
@@ -95,6 +105,9 @@ public class PageController {
         userService.saveUser(user1);
         // user service
         System.out.println(userForm);
+
+        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
+        session.setAttribute("message", message);
 
         return "redirect:/register";
     }
