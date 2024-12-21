@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,12 +18,18 @@ import com.scm.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PageController {
 
     @Autowired
     UserService userService;
+
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/home";
+    }
 
     @GetMapping("/home")
     public String home(Model model) {
@@ -52,7 +59,7 @@ public class PageController {
         return new String("contact");
     }
 
-    @GetMapping("/login")
+    @RequestMapping("/login")
     public String login() {
         return new String("login");
     }

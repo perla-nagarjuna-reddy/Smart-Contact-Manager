@@ -1,14 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+
 <head>
     <title>Login Page</title>
 </head>
+
 <body>
-    
+
     <div id="content">
-        <h1>Welcome to the login page</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla totam perspiciatis minus laboriosam, quae quibusdam suscipit incidunt, quas rerum nostrum perferendis esse nam, harum facilis quis itaque voluptates doloremque dolore!</p>
+
+        <!-- <div class="col-span-4 md:col-span-2 lg:col-span-3 xl:col-span-4"></div> -->
+        <form data-th-action="@{'/authenticate'}" method="post" class="max-w-sm mx-auto border">
+
+            <!-- data-th-object="${userForm}"
+            class="max-w-sm mx-auto border">
+            <div th:replace="~{message :: messagebox}"></div> -->
+            <div th:replace="~{message :: messagebox}"></div>
+            <div class="container ml-3">
+                <h1 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Login Here</h1>
+                <p>Start managing contacts on cloud</p>
+                <div class="text-red-600" th:if="${param.error}">
+                    Invalid username and password.</div>
+                <div class="text-green-600" th:if="${param.logout}">
+                    You have been logged out.</div>
+            </div>
+
+            <div class="m-4">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Email</label>
+                <input name="email" type="email" id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="name@flowbite.com" required />
+
+                <!-- <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 py-1 text-xs">User is
+                    required</p> -->
+            </div>
+            <div class="m-4">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Password</label>
+                <input name="password" type="password" id="password"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required />
+                <!-- <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 py-1 text-xs">
+                    User is
+                    required</p> -->
+            </div>
+
+            <div class="flex justify-center mb-2 ">
+                <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-3">Login</button>
+                <button type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-3">Reset</button>
+            </div>
+            <div class="social-buttons-container flex justify-center">
+                <a class="border px-3 py-2 dark:hover:bg-blue-700 login-with-google-btn m-2 text-center"
+                    data-th-href="@{'/oauth2/authorization/google'}">Login
+                    With Google</a>
+            </div>
+            <div class="flex justify-center">
+                <!-- <button type="button" data-th-href="@{'/oauth2/authorization/github'}"
+                    class="py-2 px-2 mb-2 bg-gray-600 w-40 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
+                    
+                    Sign in with GitHub
+                </button> -->
+                <a class="border px-3 py-2 dark:hover:bg-blue-700 login-with-github-btn m-2 text-center"
+                    data-th-href="@{'/oauth2/authorization/github'}">Login
+                    With Github</a>
+            </div>
+        </form>
+
     </div>
 
 </body>
+
 </html>
