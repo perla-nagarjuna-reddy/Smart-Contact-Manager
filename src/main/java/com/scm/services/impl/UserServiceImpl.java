@@ -88,4 +88,14 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll();
     }
 
+    @Override
+    public boolean isUserExistsByEmail(String email) {
+        return true;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User Not Found"));
+    }
+
 }
